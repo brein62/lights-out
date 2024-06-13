@@ -11,3 +11,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn-arrow path { fill: black; }
+.btn-arrow:hover { cursor: pointer; }
+.btn-arrow-disabled path { fill: gray; }
+.btn-arrow-disabled:hover { cursor: not-allowed; }
+
+.sizecounter {
+  width: 4em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.sizecounter-small { 
+  font-size: .8em; 
+  width: 5em;
+  margin-left: 1.25em;
+  margin-right: 1.25em;
+
+  /* Width and margin in em are changed to compensate for 0.8em font size */
+}
+
+.game-top span {
+  display: inline-block;
+}
+
+table {
+  margin: 0 auto;
+}
+
+.grid-cell {
+  width: 3em;
+  height: 3em;
+  border: 1px solid black;
+}
+
+.grid-cell:hover { cursor: pointer; }
