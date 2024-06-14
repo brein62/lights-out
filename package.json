@@ -1,6 +1,7 @@
 {
   "name": "lights-out-game",
   "version": "0.1.0",
+  "homepage": "https://brein62.github.io/lights-out",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -19,9 +20,12 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^6.x",
     "@typescript-eslint/parser": "^6.x",
+    "gh-pages": "^6.1.1",
     "typescript": "^5.4.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
