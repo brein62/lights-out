@@ -25,7 +25,7 @@ export default function Game() {
     if (size >= 3) { // min size is 2
       const newSize = size - 1;
       setSize(newSize);
-      setGrid(getSolvedGrid(newSize));
+      reset(newSize);
     }
   }
 
@@ -33,7 +33,7 @@ export default function Game() {
     if (size <= 998) { // min size is 999
       const newSize = size + 1;
       setSize(newSize);
-      setGrid(getSolvedGrid(newSize));
+      reset(newSize);
     }
   }
 
@@ -98,6 +98,13 @@ export default function Game() {
     return grid;
   }
 
+  const reset = (size : number) => {
+    setSolveStatus(1);
+    setMoves(0);
+    setGrid(getSolvedGrid(size));
+
+  }
+
   const click = (tile : number) => {
 
     const g = moveGrid(tile, size, [...grid]);
@@ -132,6 +139,7 @@ export default function Game() {
       </h1>
       <Grid status={grid} size={size} clickHandler={ cellClickHandler } />
       <button className="scramble btn btn-primary" id="scramble-btn" onClick={scramble}>Scramble</button>
+      <button className="scramble btn btn-secondary" id="reset-btn" onClick={() => reset(size)}>Reset</button>
       <Instructions solveStatus={solveStatus} moves={moves} />
     </div>
   );
