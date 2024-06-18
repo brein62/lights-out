@@ -2,7 +2,7 @@ import React from "react";
 import Cell from "./Cell.tsx";
 
 // generates a designed grid based on two props, size and grid status.
-export default function Grid({ size, status, clickHandler } : { size : number, status: number[], clickHandler: ( cellno : number ) => void }) {
+export default function GameGrid({ size, status, clickHandler } : { size : number, status: number[], clickHandler: ( cellno : number ) => void }) {
   let buffer = [] as React.ReactNode[]; // array of tr to be displayed in table
 
   for (let i = 0; i < size; i++) {

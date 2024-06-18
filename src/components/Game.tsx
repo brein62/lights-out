@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import Grid from "./Grid.tsx";
+import GameGrid from "./GameGrid.tsx";
 import React from "react";
 import Instructions from "./Instructions.tsx";
 import SizeCounter from "./SizeCounter.tsx";
 import Arrow from "./Arrow.tsx";
+import { Button } from "react-bootstrap";
 
 // These elements allow the Grid, when clicked, to affect the status of the Game, using the global scope.
 var clickedTile = -1; // the clicked square in question.
@@ -137,9 +138,9 @@ export default function Game() {
       <h1 className="game-top">
         <span onClick={LeftArrowHandler}><Arrow dir="left" size={size} /></span><SizeCounter size={size}/><span onClick={RightArrowHandler}><Arrow dir="right" size={size} /></span>
       </h1>
-      <Grid status={grid} size={size} clickHandler={ cellClickHandler } />
-      <button className="scramble btn btn-primary" id="scramble-btn" onClick={scramble}>Scramble</button>
-      <button className="scramble btn btn-secondary" id="reset-btn" onClick={() => reset(size)}>Reset</button>
+      <GameGrid status={grid} size={size} clickHandler={ cellClickHandler } />
+      <Button className="scramble" variant="primary" id="scramble-btn" onClick={scramble}>Scramble</Button>
+      <Button className="scramble" variant="secondary" id="reset-btn" onClick={() => reset(size)}>Reset</Button>
       <Instructions solveStatus={solveStatus} moves={moves} />
     </div>
   );
