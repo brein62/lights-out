@@ -4,7 +4,7 @@ import React from "react";
 import Instructions from "./Instructions.tsx";
 import SizeCounter from "./SizeCounter.tsx";
 import Arrow from "./Arrow.tsx";
-import { Button } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 
 // These elements allow the Grid, when clicked, to affect the status of the Game, using the global scope.
 var clickedTile = -1; // the clicked square in question.
@@ -134,14 +134,18 @@ export default function Game() {
   }
 
   return (
-    <div onClick={update} className="game">
-      <h1 className="game-top">
-        <span onClick={LeftArrowHandler}><Arrow dir="left" size={size} /></span><SizeCounter size={size}/><span onClick={RightArrowHandler}><Arrow dir="right" size={size} /></span>
-      </h1>
-      <GameGrid status={grid} size={size} clickHandler={ cellClickHandler } />
-      <Button className="scramble" variant="primary" id="scramble-btn" onClick={scramble}>Scramble</Button>
-      <Button className="scramble" variant="secondary" id="reset-btn" onClick={() => reset(size)}>Reset</Button>
-      <Instructions solveStatus={solveStatus} moves={moves} />
+    <div onClick={update} className="game container">
+      <Stack gap={3}>
+        <h1 className="game-top">
+          <span onClick={LeftArrowHandler}><Arrow dir="left" size={size} displaySize={45} /></span><SizeCounter size={size}/><span onClick={RightArrowHandler}><Arrow dir="right" size={size} displaySize={45} /></span>
+        </h1>
+        <GameGrid status={grid} size={size} clickHandler={ cellClickHandler } />
+        <Stack direction="horizontal" className="justify-content-center" gap={2}>
+          <Button className="scramble" variant="primary" id="scramble-btn" onClick={scramble}>Scramble</Button>
+          <Button className="scramble" variant="secondary" id="reset-btn" onClick={() => reset(size)}>Reset</Button>
+        </Stack>
+        <Instructions solveStatus={solveStatus} moves={moves} />
+      </Stack>
     </div>
   );
 
