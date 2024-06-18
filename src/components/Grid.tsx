@@ -8,11 +8,14 @@ export default function Grid({ size, status, clickHandler } : { size : number, s
   for (let i = 0; i < size; i++) {
     let buffer2 = [] as React.ReactNode[]; // array of td to be put in tr
     for (let j = 0; j < size; j++) {
-      const cellno = i * size + j;
-      buffer2.push(<Cell value={status[cellno]} cellno={cellno} clickHandler={ clickHandler } />);
+      const cellno = i * size + j;  
+      const cellKey = "cell-" + cellno.toString();
+      buffer2.push(<Cell key={ cellKey } value={status[cellno]} cellno={cellno} clickHandler={ clickHandler } />);
     }
 
-    buffer.push(<tr>{buffer2}</tr>);
+    const rowKey = "row-" + i.toString();
+
+    buffer.push(<tr key={rowKey} id={rowKey}>{buffer2}</tr>);
   }
 
   return (
