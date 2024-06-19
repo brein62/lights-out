@@ -5,6 +5,7 @@ import Instructions from "./Instructions.tsx";
 import SizeCounter from "./SizeCounter.tsx";
 import Arrow from "./Arrow.tsx";
 import { Button, Stack } from "react-bootstrap";
+import WinModal from "./WinModal.tsx";
 
 // These elements allow the Grid, when clicked, to affect the status of the Game, using the global scope.
 var clickedTile = -1; // the clicked square in question.
@@ -21,8 +22,38 @@ export default function Game() {
   const [ solveStatus, setSolveStatus ] = useState(1); // 0: unsolved, 1: solved, 2: solving, 3: messed from unsolved
   const [ grid, setGrid ] = useState<number[]>(Array(25).fill(0));
   const [ moves, setMoves ] = useState(0);
+  const [ show, setShow ] = useState(false);
+  const [ showMoves, setShowMoves ] = useState(0);
+
+  const keyPress = (e : KeyboardEvent) => {
+      console.log(e.code);
+      if (e.code === "Space") {
+        e.preventDefault();
+        scramble();
+      } else if (e.code === "ArrowLeft" || e.code === "KeyA") {
+        LeftArrowHandler();
+      } else if (e.code === "ArrowRight" || e.code === "KeyD") {
+        RightArrowHandler();
+      } else if (e.code === "Escape" || e.code === "KeyR") {
+        reset(size);
+      } else if (show) {
+        handleClose();
+      }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyPress);
+
+    return () => window.removeEventListener("keydown", keyPress);
+  }, [keyPress]);
 
   const LeftArrowHandler = () => {
+
+    if (show) {
+      handleClose();
+      return;
+    }
+
     if (size >= 3) { // min size is 2
       const newSize = size - 1;
       setSize(newSize);
@@ -31,6 +62,12 @@ export default function Game() {
   }
 
   const RightArrowHandler = () => {
+
+    if (show) {
+      handleClose();
+      return;
+    }
+
     if (size <= 998) { // min size is 999
       const newSize = size + 1;
       setSize(newSize);
@@ -49,6 +86,12 @@ export default function Game() {
   }
 
   const scramble = () => {
+    
+    if (show) {
+      handleClose();
+      return;
+    }
+
     let i: number;
 
     // resetting the puzzle
@@ -100,10 +143,27 @@ export default function Game() {
   }
 
   const reset = (size : number) => {
+
+    if (show) {
+      handleClose();
+      return;
+    }
+
     setSolveStatus(1);
     setMoves(0);
     setGrid(getSolvedGrid(size));
+  }
 
+  // for modal
+  const handleShow = (moves : number) => {
+    setShow(true);
+    setShowMoves(moves);
+  }
+
+  const handleClose = () => {
+    setShow(false);
+    setShowMoves(0);
+    setMoves(0);
   }
 
   const click = (tile : number) => {
@@ -117,8 +177,8 @@ export default function Game() {
     if ((solveStatus === 0 || solveStatus === 2) && checkSolved(g)) {
       // playing an actual game and move solves the game
       setSolveStatus(1);
-      alert("Good job! Moves: " + (moves + 1).toString());
-      setMoves(0);
+      setMoves(moves + 1);
+      handleShow(moves + 1);
     } else if (solveStatus === 0 || solveStatus === 2) {
       // playing an actual game and move does not solve the game
       setSolveStatus(2);
@@ -145,21 +205,9 @@ export default function Game() {
           <Button className="scramble" variant="secondary" id="reset-btn" onClick={() => reset(size)}>Reset</Button>
         </Stack>
         <Instructions solveStatus={solveStatus} moves={moves} />
+        <WinModal show={ show } handleClose={handleClose} moves={showMoves}/>
       </Stack>
     </div>
   );
 
-}
-
-window.onload = function() {
-  document.addEventListener("keypress", (e) => {
-    console.log(e.code);
-    if (e.code === "Space") {
-      document.getElementById("scramble-btn")?.click();
-    } /*else if (e.code === "LeftArrow") {
-      document.getElementById("left-arrow").click();
-    } else if (e.code === "RightArrow") {
-      document.getElementById("right-arrow").click();
-    }*/
-  });
 }
